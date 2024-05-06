@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Ballot Smart Contract Application</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/web3@1.3.5/dist/web3.min.js"></script>
+	<script src="voting.js"></script>
+</head>
+
+<body>
+	<h1>BALLOT SMART CONTRACT APPLICATION</h1>
+	<p>Author: Everett Richards</p>
+	<div class="float" id="maindiv">
+	<!-- SELECT YOUR OWN LOCAL ADDRESS -->
+	<form id="PickAddress">
+		<label class="big">Client Address Selection</label><br><br>
+		<label for="address">Pick an address using a number between <span class="highlight">0</span> and <span class="highlight">99</span>:</label><br>
+		<input type="number" id="choose_address" name="choose_address" min="1" max="99" placeholder=""><br>
+		<input type="button" onclick="selectAddress()" value="Submit">
+	</form>
+
+	<!-- CHOOSE ADMIN OR USER CLIENT -->
+	<form id="ChooseClient" style="display:none;">
+		<label class="big"><b>Client Initialization</b></label><br>
+		<h2>User Options</h2>
+		<label>Your Name: <input type="text" name="name" id="name" placeholder="Enter your name"></label><br>
+		<label>Contract Address: <input type="text" id="contract_address" name="contract_address" placeholder="0x0000000000000000000000000000000000000000"></label><br><br>
+		<input type="button" value="Join as User / Voter" onclick="joinExistingBallot()" name="saveAddress">
+		<input type="button" value="Join as Administrator" onclick="joinAsAdministrator()" name="deploy"><br>
+	</form>
+
+	<!-- ACT AS A USER / VOTER -->
+	<form id="UserForm" style="display:none;">
+		
+		<label class="big"><b>Ballot User Interface</b></label><br>
+		
+		<label class="bigClient">Stage 0: Voter Registration</label><br>
+		<input type="button" value="Register to Vote" onclick="registerToVote()" name="register"><br>
+		<input type="button" value="Check If You Are Registered to Vote" onclick = "checkIfIsRegistered()" name="checkIfRegistered"><br>
+
+		<label class="bigClient">Stage 1: Candidate Registration</label><br>
+		<input type="button" value="Nominate Yourself" name="selfNominateX" onclick="selfNominate()"><br>
+		<input type="button" value="Nominate Somebody Else" name="nominateCandidateX" onclick="nominateCandidate()"><input type="text" name="nominee" id="nomineeAddress"
+			placeholder="Enter nominee address"><br>
+		<input type="button" value="Check If You Are Registered as a Candidate" name="checkIfIsCandidateX" onclick="checkIfIsCandidate()"><br>
+
+		<label class="bigClient">Stage 2: Voting</label><br>
+		<input type="button" value="Get Candidates" name="getCandidatesX" onclick="getCandidates()"><br>
+		<input type="button" value="Cast Ballot" name="castBallotX" onclick="castBallot()">
+		<input type="text" name="chosen_candidate" id="chosen_candidate" placeholder="Enter candidate address"><br>
+		<input type="button" value="Vote for Self" name="selfVoteX" onclick="selfVote()"><br>
+		<input type="button" value="Who Did I Vote For?" name="whoVotedForX" onclick="whoVotedFor()"><br>
+		
+		<label class="bigClient">Stage 3: Results</label><br>
+		<input type="button" value="Get Full Results" name="getResultsX" onclick="getResults()"><br>
+		<input type="button" value="Get Winner" name="getWinnerX" onclick="getWinner()"><br>
+
+		<label class="bigClient">Helper Functions</label><br>
+		<input type="button" value="Get Current Stage" name="getCurrentStageX" onclick="getCurrentStage()"><br>
+	</form>
+
+	<!-- ACT AS AN ADMINISTRATOR / GOVERNMENT -->
+	<form id="AdminForm" style="display:none;">
+		<label class="big"><b>Ballot Admin Interface</b></label><br>
+		<label class="bigAdmin">Stage 0: Voter Registration</label><br>
+		<input type="button" value="Get Registered Voters" name="getVoterList" onclick="getRegisteredVoters()"><br>
+		<input type="button" value="purgeVoterRolls" name="purge" onclick="purgeVoters()"><br>
+
+		<label class="bigAdmin">Stage 1: Candidate Registration</label><br>
+		<input type="button" value="Nominate Somebody" name="nominateCandidateX" onclick="nominateCandidate()"><input type="text" name="nominee"
+			placeholder="Enter nominee address"><br>
+
+		<label class="bigAdmin">Stage 2: Voting</label><br>
+		<input type="button" value="Get Candidates" name="getCandidatesX" onclick="getCandidates()"><br>
+
+
+		<label class="bigAdmin">Stage 3: Results</label><br>
+		<input type="button" value="Get Full Results" name="getResultsX" onclick="getResults()"><br>
+		<input type="button" value="Get Winner" name="getWinnerX" onclick="getWinner()"><br>
+
+		<label class="bigAdmin">Helper Functions</label><br>
+		<input type="button" value="Get Current Stage" name="getCurrentStageX" onclick="getCurrentStage()">
+		<input type="button" value="Go to Next Stage" name="nextStageX" onclick="nextStage()">
+	</form>
+	<p>Local Address: (Name = "<span id="username_slot">NULL</span>")<br>
+		<input type="button" value="Copy" onclick="copyText('LocalAddressLabel')">
+		<span id="LocalAddressLabel">0x0000000000000000000000000000000000000000</span>
+		</p>
+	<p>Contract Address:<br>
+		<input type="button" value="Copy" onclick="copyText('ContractAddressLabel')">
+		<span id="ContractAddressLabel">0x0000000000000000000000000000000000000000</span>
+		</p><br>
+
+</div>
+<div class="float" id="output">
+	<p class="invert" id="output_log_label">Output Log://</p>
+	<p class="invert" id="output_log"></p><br>
+</div>
+<!--<div class="float" id="ad">
+	<img src="./advertisement.png" style="width: 480px; height: auto;">
+</div>-->
+</body>
+
+</html>
